@@ -19,6 +19,7 @@ Pre-purchase health check for GT86 buyers. Web app (React). Mocked data for now,
 - @docs/architecture.md — four layers, mock scenarios, data flow
 - @docs/tooling.md — stack choices, project structure, and rationale
 - @docs/build-plan.md — slice-by-slice build checklist
+- @docs/elm327-response-format.md — exact wire formats, decoding, mock scenario data
 - @docs/discovery.md — product vision, personas, capability cross-reference
 - @docs/ux-ia.md — UX principles, report structure, flow
 - @docs/obd2-capability.md — what standard OBD2 vs SSM2 gives us on the GT86
