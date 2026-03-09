@@ -6,38 +6,38 @@ Work through in order. Each slice: code, tests, review, then next.
 
 Set up the project shell. Nothing functional, just a working build.
 
-- [ ] `npm create vite@latest` with React + TypeScript template in `web/`
-- [ ] Install Tailwind CSS v4
-- [ ] Install and configure Vitest
-- [ ] ESLint + Prettier config (2-space indent, consistent rules)
-- [ ] `@/` path alias in `tsconfig.json` and `vite.config.ts`
-- [ ] Create empty layer directories: `connection/`, `protocol/`, `knowledge/`, `components/`
-- [ ] Placeholder `index.ts` in each layer (named export, nothing else)
-- [ ] Confirm: `npm run dev` starts, `npm run build` succeeds, `npm run test` passes
-- [ ] Commit
+- [x] `npm create vite@latest` with React + TypeScript template in `web/`
+- [x] Install Tailwind CSS v4
+- [x] Install and configure Vitest
+- [x] ESLint + Prettier config (2-space indent, consistent rules)
+- [x] `@/` path alias in `tsconfig.json` and `vite.config.ts`
+- [x] Create empty layer directories: `connection/`, `protocol/`, `knowledge/`, `components/`
+- [x] Placeholder `index.ts` in each layer (named export, nothing else)
+- [x] Confirm: `npm run dev` starts, `npm run build` succeeds, `npm run test` passes
+- [x] Commit: `41d41f2`
 
 ## Slice 1: Mock connection
 
 The connection layer with a mock implementation returning a static scenario.
 
-- [ ] Define `Connection` interface — `connect()`, `send()`, `disconnect()`
-- [ ] Define response types for OBD2 data (DTCs, PIDs, readiness, VIN)
-- [ ] Build `MockConnection` implementing the interface, returning `clean` scenario data
-- [ ] Unit tests: connect resolves, send returns expected shape, disconnect cleans up
-- [ ] Commit
+- [x] Define `Connection` interface — `connect()`, `send()`, `disconnect()`, `isConnected()`
+- [x] Scenario data for all four scenarios with exact ELM327 hex values
+- [x] Build `MockConnection` implementing the interface, returning scenario data
+- [x] Unit tests: lifecycle, AT commands, all four scenarios, error cases (22 tests)
+- [x] Commit: `d40d520`
 
 ## Slice 2: Protocol layer
 
 Parse raw OBD2 responses into typed objects. Pure input/output.
 
-- [ ] Define protocol types — `DTC`, `ReadinessMonitor`, `PidReading`, etc.
-- [ ] Parse Mode 03 response → stored DTCs
-- [ ] Parse Mode 07 response → pending DTCs
-- [ ] Parse Mode 01 PID 01 → readiness monitors
-- [ ] Parse Mode 01 PIDs (coolant, battery, fuel trims) → typed readings
-- [ ] Parse Mode 09 → VIN
-- [ ] Unit tests for each parser, including malformed input
-- [ ] Commit
+- [x] Define protocol types — `DTC`, `ReadinessMonitors`, `Monitor`, `PidReading`, result types
+- [x] Parse Mode 03 response → stored DTCs
+- [x] Parse Mode 07 response → pending DTCs
+- [x] Parse Mode 01 PID 01 → readiness monitors
+- [x] Parse Mode 01 PIDs (coolant, battery, fuel trims both banks) → typed readings
+- [x] Parse Mode 09 → VIN
+- [x] Unit tests for each parser, including malformed input (42 tests)
+- [x] Commit: `d7736f7`
 
 ## Slice 3: Knowledge layer
 
