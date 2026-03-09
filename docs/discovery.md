@@ -40,7 +40,7 @@ All standard OBD2. No SSM2. No special adapter.
 
 ## GT86-Specific Value
 
-The differentiator. Contextualise results for this car:
+What makes this worth using over a generic OBD2 app:
 - P0420 → "most common code on modified GT86s — usually aftermarket headers"
 - Incomplete readiness monitors → "codes may have been recently cleared — ask the seller why"
 - Fuel trims outside range → explain what that means on the FA20 boxer

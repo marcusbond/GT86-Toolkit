@@ -1,57 +1,40 @@
-# UX & Information Architecture
+# UX and Information Architecture
 
-## Context
-User is standing next to a car they might buy. Seller is watching. Needs answers fast, not an interface to learn.
+## The situation
+You're standing next to a car you might buy. The seller is watching. You want answers fast, not an interface to learn.
 
-## Principle
-Organised by user intent, not technical structure. No "DTCs screen" and "PIDs screen" — that's OBD2's structure, not the buyer's.
+## Organising principle
+Structure around what the buyer wants to know, not how OBD2 works internally. No "DTCs screen" and "PIDs screen". Those are the protocol's categories, not the user's questions.
 
 ## Flow
 
 ### 1. Connect
-- One button. No configuration.
-- Pairs with adapter, confirms it's a GT86 (VIN decode).
+One button. No configuration. Pairs with adapter, confirms it's a GT86 via VIN.
 
 ### 2. Scan
-- Automatic. Runs all checks — DTCs, pending codes, readiness, live snapshot.
-- Progress indicator. ~30 seconds.
+Runs everything automatically: DTCs, pending codes, readiness monitors, live data snapshot. Progress indicator. About 30 seconds.
 
 ### 3. Report
-This is the product. Everything before it is setup.
+This is the product. Everything before it is just setup.
 
-**Top level:** verdict. Green/amber/red. "2 issues found" or "Looking healthy."
+Top of the page: a scorecard. Faults, pending, readiness, MOT, mileage. One glance tells you if there's a problem.
 
-**Sections, in order:**
+Then each category as its own card:
 
-| Section | Question it answers |
+| Card | What it answers |
 |---|---|
+| Vehicle details | What car is this? Tax, MOT, registration date |
+| Mileage history | Has the mileage been consistent? Any gaps or rollbacks? |
+| MOT history | Pass/fail record, advisories, failure reasons |
 | Fault codes | Is anything wrong right now? |
-| Pending codes | Is anything about to go wrong? |
-| Readiness monitors | Has someone hidden problems? |
-| Engine vitals | Is it running normally? |
+| Pending codes | Is anything developing? |
+| Readiness monitors | Has someone recently cleared codes to hide problems? |
+| Engine vitals | Coolant, battery, fuel trims. Is it running normally? |
 
-**Each section:**
-- Status icon → one-line summary → expandable detail
-- GT86-specific context on every finding
-- No issues = one line, collapsed. Issues = expanded with explanation.
+Each card: title, status badge (pass/warn/fail), then the detail. GT86-specific context on anything that needs explaining.
 
-## Examples
-
-**No problems:**
-> ✓ No fault codes found
-> ✓ No pending codes
-> ✓ All readiness monitors complete
-> ✓ Engine vitals normal
-
-**Problems found:**
-> ✗ 1 fault code — P0420: Catalyst efficiency below threshold
-> "Most common code on modified GT86s. Usually caused by aftermarket headers. Ask the seller if headers have been fitted."
->
-> ⚠ Readiness monitors incomplete (2 of 8)
-> "Some emissions tests haven't completed. This can mean codes were recently cleared. Ask the seller why."
-
-## What makes this good IA
-- Answer first, detail second (progressive disclosure)
-- Every section answers one question
-- No raw values without context
-- Nothing is surfaced equally — problems get space, clean checks collapse
+## What makes this work
+- Answer first, detail underneath. Don't make people dig.
+- Problems get space. Clean checks stay short.
+- No raw values without explaining what they mean for this car.
+- Everything scrolls. No tabs, no hidden panels. You're in a car park, not at a desk.
