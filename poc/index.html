@@ -378,6 +378,33 @@
     }
     .mot-advisories li { margin-left: 16px; }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab:hover { color: var(--text-mid); }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     .footer {
       margin-top: 24px;
       text-align: center;
@@ -450,108 +477,113 @@
       </div>
     </div>
 
-    <!-- Vehicle History (DVLA) -->
-    <div class="section-label">Vehicle History</div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('history')">Vehicle History</div>
+      <div class="tab" onclick="switchTab('diagnostics')">Live Diagnostics</div>
+    </div>
 
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Vehicle Details</span>
+    <!-- Tab: Vehicle History -->
+    <div class="tab-content active" id="tab-history">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Vehicle Details</span>
+        </div>
+        <div class="data-rows">
+          <div class="data-row">
+            <span class="data-key">First registered</span>
+            <span class="data-val">March 2015</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Colour</span>
+            <span class="data-val">White</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Engine</span>
+            <span class="data-val">2.0L Petrol</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">Tax status</span>
+            <span class="data-val pass">Taxed until Oct 2026</span>
+          </div>
+          <div class="data-row">
+            <span class="data-key">MOT expires</span>
+            <span class="data-val pass">28 October 2026</span>
+          </div>
+        </div>
       </div>
-      <div class="data-rows">
-        <div class="data-row">
-          <span class="data-key">First registered</span>
-          <span class="data-val">March 2015</span>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Mileage History</span>
+          <span class="card-badge pass">Consistent</span>
         </div>
-        <div class="data-row">
-          <span class="data-key">Colour</span>
-          <span class="data-val">White</span>
+        <div class="mileage-timeline">
+          <div class="mileage-bar">
+            <div class="mileage-col" style="height: 15%"></div>
+            <div class="mileage-col" style="height: 28%"></div>
+            <div class="mileage-col" style="height: 40%"></div>
+            <div class="mileage-col" style="height: 50%"></div>
+            <div class="mileage-col" style="height: 58%"></div>
+            <div class="mileage-col" style="height: 68%"></div>
+            <div class="mileage-col" style="height: 78%"></div>
+            <div class="mileage-col" style="height: 88%"></div>
+            <div class="mileage-col" style="height: 100%"></div>
+          </div>
+          <div class="mileage-labels">
+            <span>2016</span>
+            <span>2020</span>
+            <span>2025</span>
+          </div>
+          <p class="mileage-note">67,430 miles recorded at last MOT. Avg ~7,500/year. Steady increase, no gaps or rollbacks.</p>
         </div>
-        <div class="data-row">
-          <span class="data-key">Engine</span>
-          <span class="data-val">2.0L Petrol</span>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">MOT History</span>
+          <span class="card-badge pass">9 tests</span>
         </div>
-        <div class="data-row">
-          <span class="data-key">Tax status</span>
-          <span class="data-val pass">Taxed until Oct 2026</span>
+        <div class="mot-item">
+          <div class="mot-top">
+            <span class="mot-date">28 Oct 2025</span>
+            <span class="mot-result pass">Pass</span>
+          </div>
+          <div class="mot-miles">67,430 miles</div>
         </div>
-        <div class="data-row">
-          <span class="data-key">MOT expires</span>
-          <span class="data-val pass">28 October 2026</span>
+        <div class="mot-item">
+          <div class="mot-top">
+            <span class="mot-date">30 Oct 2024</span>
+            <span class="mot-result pass">Pass</span>
+          </div>
+          <div class="mot-miles">59,812 miles</div>
+          <ul class="mot-advisories">
+            <li>Rear brake disc worn but above limit</li>
+          </ul>
+        </div>
+        <div class="mot-item">
+          <div class="mot-top">
+            <span class="mot-date">1 Nov 2023</span>
+            <span class="mot-result pass">Pass</span>
+          </div>
+          <div class="mot-miles">52,105 miles</div>
+        </div>
+        <div class="mot-item">
+          <div class="mot-top">
+            <span class="mot-date">28 Oct 2022</span>
+            <span class="mot-result fail">Fail</span>
+          </div>
+          <div class="mot-miles">44,290 miles</div>
+          <ul class="mot-advisories">
+            <li>Nearside front tyre below minimum tread</li>
+            <li>Offside rear brake binding slightly</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- Mileage History -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Mileage History</span>
-        <span class="card-badge pass">Consistent</span>
-      </div>
-      <div class="mileage-timeline">
-        <div class="mileage-bar">
-          <div class="mileage-col" style="height: 15%"></div>
-          <div class="mileage-col" style="height: 28%"></div>
-          <div class="mileage-col" style="height: 40%"></div>
-          <div class="mileage-col" style="height: 50%"></div>
-          <div class="mileage-col" style="height: 58%"></div>
-          <div class="mileage-col" style="height: 68%"></div>
-          <div class="mileage-col" style="height: 78%"></div>
-          <div class="mileage-col" style="height: 88%"></div>
-          <div class="mileage-col" style="height: 100%"></div>
-        </div>
-        <div class="mileage-labels">
-          <span>2016</span>
-          <span>2020</span>
-          <span>2025</span>
-        </div>
-        <p class="mileage-note">67,430 miles recorded at last MOT. Avg ~7,500/year. Steady increase — no gaps or rollbacks.</p>
-      </div>
-    </div>
-
-    <!-- MOT History -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">MOT History</span>
-        <span class="card-badge pass">9 tests</span>
-      </div>
-      <div class="mot-item">
-        <div class="mot-top">
-          <span class="mot-date">28 Oct 2025</span>
-          <span class="mot-result pass">Pass</span>
-        </div>
-        <div class="mot-miles">67,430 miles</div>
-      </div>
-      <div class="mot-item">
-        <div class="mot-top">
-          <span class="mot-date">30 Oct 2024</span>
-          <span class="mot-result pass">Pass</span>
-        </div>
-        <div class="mot-miles">59,812 miles</div>
-        <ul class="mot-advisories">
-          <li>Rear brake disc worn but above limit</li>
-        </ul>
-      </div>
-      <div class="mot-item">
-        <div class="mot-top">
-          <span class="mot-date">1 Nov 2023</span>
-          <span class="mot-result pass">Pass</span>
-        </div>
-        <div class="mot-miles">52,105 miles</div>
-      </div>
-      <div class="mot-item">
-        <div class="mot-top">
-          <span class="mot-date">28 Oct 2022</span>
-          <span class="mot-result fail">Fail</span>
-        </div>
-        <div class="mot-miles">44,290 miles</div>
-        <ul class="mot-advisories">
-          <li>Nearside front tyre below minimum tread</li>
-          <li>Offside rear brake binding slightly</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="section-label">Live Diagnostics</div>
+    <!-- Tab: Live Diagnostics -->
+    <div class="tab-content" id="tab-diagnostics">
 
     <!-- Faults -->
     <div class="card">
@@ -626,10 +658,19 @@
       </div>
     </div>
 
+    </div><!-- /tab-diagnostics -->
+
     <div class="footer">GT86 Toolkit · scanned just now</div>
   </div>
 
   <script>
+    function switchTab(id) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
     function startScan() {
       document.getElementById('screen-connect').classList.remove('active');
       document.getElementById('screen-scanning').classList.add('active');
