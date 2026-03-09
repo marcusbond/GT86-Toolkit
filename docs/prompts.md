@@ -100,7 +100,47 @@ It also caught a gap: we'd been thinking about "clear fault codes" as a feature,
 
 **Takeaway:** Stepping back to check alignment is cheap and catches drift early. We'd been building for 45 minutes and had already started assuming Weekend Wrench was a POC user. They're not. They're Phase 2.
 
-## What we learned
+## Prompt 8: Tooling Decisions
+
+> Let's think about the build. Tooling first, repo structure. CRA is old hat. Thoughts? Think hard.
+
+Deliberately asked for reasoning, not just a recommendation. "Think hard" is a useful nudge — without it you get the safe default answer (which would have been "use Vite" anyway, but without the comparison).
+
+**What came back:** Vite over CRA (dead) and Next.js (unnecessary SSR complexity). Originally suggested plain JS and plain CSS "to keep it simple for a mentee." Pushed back on both:
+
+> I think TS is de facto for this.
+
+> I think best practice as per industry standards is a goal here.
+
+Both corrections stuck immediately. The lesson: Claude optimises for reducing friction by default. If your goal is industry-standard practice, say so explicitly — Claude won't assume that's what you want in a mentoring context.
+
+**Final stack:** Vite + React + TypeScript (strict) + Tailwind v4 + Vitest + ESLint + Prettier.
+
+**Takeaway:** State your quality bar. "Industry standard" is a useful constraint that changes recommendations. Without it, you get the simplest thing. With it, you get the right thing.
+
+## Prompt 9: Document Before Building
+
+> We should document this and not race off.
+
+One sentence. Stopped Claude from scaffolding immediately. This matters because decisions not written down get lost between sessions — especially in a mentoring project where the mentee needs to understand *why*, not just *what*.
+
+Produced `docs/tooling.md` (stack choices with rationale) and `docs/build-plan.md` (seven slices with checklists and review checkpoints).
+
+**Takeaway:** Claude defaults to action. If you want documentation, ask for it before the code starts. Once scaffolding begins, the moment has passed.
+
+## Prompt 10: ELM327 Research
+
+> How do we know what that looks like?
+
+Asked before writing any connection layer code. The point: don't mock something you haven't seen. If the mock data doesn't match real ELM327 wire format, you'll rewrite the protocol parser later.
+
+Pointed Claude at the ELM327-emulator reference from `docs/testing-approach.md` and asked it to research actual response formats for every command the app needs.
+
+**What came back:** Complete reference doc with exact hex responses for all four scenarios, decoding formulas, error responses, AT command init sequence, and multi-frame format for VIN. All grounded in the ELM327 spec and emulator source, not invented.
+
+**Takeaway:** "How do we know what that looks like?" is a better prompt than "build the mock data." Research before code. The 10 minutes spent on the reference doc saves rewriting the parser when you discover the format was wrong.
+
+## What we learned (updated)
 
 "Can we get oil temp?" is a product question. Answering it early killed a feature direction before we wasted time on it.
 
@@ -109,3 +149,9 @@ A real scenario beats a structured prompt. Every time.
 Asking for principles ("what makes good IA?") gets better results than asking for deliverables ("design the IA"). Claude explains the thinking, you apply it.
 
 And "don't assume" is the single most useful instruction you can give Claude. Without it, Claude fills gaps. With it, Claude flags them. You want the flags.
+
+State your quality bar explicitly. Claude defaults to "simplest for the context." If you want industry standard, say "industry standard." If you want production-grade, say that. The constraint changes the output.
+
+"Document before building" and "research before coding" are one-sentence prompts that save hours. Claude's bias is toward action. Slowing it down at the right moment is the highest-leverage thing you can do.
+
+"How do we know what that looks like?" is the single best question to ask before building anything that talks to an external system. It forces grounded research instead of plausible-sounding invention.
