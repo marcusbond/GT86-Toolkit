@@ -15,8 +15,17 @@ Pre-purchase health check for GT86 buyers. Web app (React). Mocked data for now,
 [x] POC wireframe
 [ ] React build
 
+## Key files
+- @docs/architecture.md — four layers, mock scenarios, data flow
+- @docs/discovery.md — product vision, personas, capability cross-reference
+- @docs/ux-ia.md — UX principles, report structure, flow
+- @docs/obd2-capability.md — what standard OBD2 vs SSM2 gives us on the GT86
+- @docs/testing-approach.md — no hardware, mock data and software emulator
+- @docs/prompts.md — how we got here, prompt patterns and lessons
+- `poc/index.html` — visual spec for the React build
+
 ## Architecture
-- Four layers: connection, protocol, knowledge, UI. Each independent. See `docs/architecture.md`
+- Four layers: connection, protocol, knowledge, UI. Each independent. See @docs/architecture.md
 - Mock data is first-class, not an afterthought. Supports scenarios (clean car, faults, cleared codes, mileage anomaly)
 - GT86 knowledge base (fault code context, normal ranges) is a data structure, not scattered conditionals
 - Connection layer is swappable (mock / Web Bluetooth / Web Serial)
