@@ -63,6 +63,43 @@ Would have been useful for competitive context. We skipped it because the use ca
 
 We'll need this when building the GT86-specific context layer. Not needed for UX scoping.
 
+## Prompt 6: POC Wireframe
+
+> Rough out the report screen in basic HTML. Just structure and placeholder content, no styling beyond what's needed to show the hierarchy.
+
+Started with structure only. Then iterated on the visual design by talking about it, not by writing detailed specs.
+
+### Vibing on the POC
+
+This was the most iterative part. We went through several rounds:
+
+1. **First pass** was structurally right but visually bland. System fonts, grey boxes, no personality.
+2. **Added typography and colour** (Fraunces serif, warm tones). Looked like a blog. Too editorial.
+3. **Tried tabbed categories** with swappable panels. Felt like a widget, not information. The tabs looked awful.
+4. **Looked at Carwow and PistonHeads** for reference. The pattern: confident, clean, content-first. No gimmicks. Data presented plainly with good hierarchy.
+5. **Dropped tabs, went to scrollable cards.** Each category is its own card. Scorecard row at the top for the summary. Felt more like a vehicle listing page.
+6. **Added DVLA/MOT history.** You're already checking the car, why not pull in the stuff you'd normally pay HPI for?
+7. **Fixed the palette.** Earthy/sand tones felt like Basecamp. Switched to cool blue-greys. Fresh, not warm.
+
+What worked about the vibing process:
+- Stating what was wrong ("looks like a blog", "tabs look awful") was more useful than describing what we wanted. Easier to react to something concrete than design in the abstract.
+- Looking at real products (Carwow, PistonHeads) gave us a shared reference point. "Like that, not like this."
+- Each round was small. Change one thing, look at it, react. Not big redesigns.
+
+What we'd do differently:
+- Should have looked at reference sites earlier, before writing any CSS. Would have saved a couple of rounds.
+- The font and colour exploration would have been faster with a moodboard or a few screenshots rather than iterating in code.
+
+## Prompt 7: Reflection
+
+> Let's reflect on whether we equal or improve the original POC and whether we are aligned with vision and deliver on our personas.
+
+This is worth doing explicitly. We compared the original iOS app (three buttons, raw PID dumps, developer tool) against the POC (single flow, plain language, GT86 context, DVLA history). The comparison made it obvious the POC is a different product, not a port.
+
+It also caught a gap: we'd been thinking about "clear fault codes" as a feature, but that doesn't belong in a pre-purchase tool. You don't write to someone else's ECU. That led to the Phase 1 / Phase 2 split, which cleaned up the personas.
+
+**Takeaway:** Stepping back to check alignment is cheap and catches drift early. We'd been building for 45 minutes and had already started assuming Weekend Wrench was a POC user. They're not. They're Phase 2.
+
 ## What we learned
 
 "Can we get oil temp?" is a product question. Answering it early killed a feature direction before we wasted time on it.

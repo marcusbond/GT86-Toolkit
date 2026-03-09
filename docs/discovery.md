@@ -4,29 +4,36 @@
 
 Pre-purchase confidence for GT86 buyers. Plug in, get a clear picture of the car's health before you buy it.
 
-GT86-specific context on every result — not raw codes and textbook definitions.
+GT86-specific context on every result, not raw codes and textbook definitions.
 
-## Lead Persona: Buyer
+## Product Phases
 
+### Phase 1: Before you buy (POC)
+Read-only. Scan, report, context. You don't own this car yet, so you don't touch anything. No clearing codes, no writing to the ECU.
+
+### Phase 2: After you buy (future)
+Now it's your car. Clear codes after mods, monitor engine vitals, track changes over time. This is where Weekend Wrench and Tuner/Builder personas come in.
+
+## Personas
+
+### Buyer (Phase 1, lead persona)
 Considering buying a GT86. Doesn't know much about them. Wants to check a car before handing over money. Needs clear answers, not technical data.
 
-**Wants:**
-- Are there any fault codes? (stored and pending)
+Wants:
+- Are there any fault codes?
 - Has someone cleared codes to hide problems?
+- What's the MOT and mileage history?
 - Is the engine running normally?
-- Any red flags?
 
-## Supporting Personas
+### Weekend Wrench (Phase 2)
+Bolt-ons (headers, intake, exhaust). Read and clear CELs, confirm car is OK after a mod. Same OBD2 data as the buyer, plus write access to clear codes.
 
-### Weekend Wrench
-Bolt-ons (headers, intake, exhaust). Read/clear CELs, confirm car is OK after mod. Served by the same feature set.
-
-### Tuner/Builder
-Wants oil temp, knock, AF data. Needs SSM2. Out of scope for POC.
+### Tuner/Builder (Phase 2, needs SSM2)
+Wants oil temp, knock, AF data, before/after comparison. Needs SSM2 protocol and compatible hardware. Out of scope until the adapter question is resolved.
 
 ## POC Capability Check
 
-All standard OBD2. No SSM2. No special adapter.
+All standard OBD2. No SSM2. No special adapter. Read-only.
 
 | Check | OBD2 Mode | What it tells you |
 |---|---|---|
@@ -41,8 +48,8 @@ All standard OBD2. No SSM2. No special adapter.
 ## GT86-Specific Value
 
 What makes this worth using over a generic OBD2 app:
-- P0420 → "most common code on modified GT86s — usually aftermarket headers"
-- Incomplete readiness monitors → "codes may have been recently cleared — ask the seller why"
+- P0420 → "most common code on modified GT86s, usually aftermarket headers"
+- Incomplete readiness monitors → "codes may have been recently cleared, ask the seller why"
 - Fuel trims outside range → explain what that means on the FA20 boxer
 
 ## Open Questions
