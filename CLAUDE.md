@@ -17,6 +17,8 @@ Pre-purchase health check for GT86 buyers. Web app (React). Mocked data for now,
 
 ## Key files
 - @docs/architecture.md — four layers, mock scenarios, data flow
+- @docs/tooling.md — stack choices, project structure, and rationale
+- @docs/build-plan.md — slice-by-slice build checklist
 - @docs/discovery.md — product vision, personas, capability cross-reference
 - @docs/ux-ia.md — UX principles, report structure, flow
 - @docs/obd2-capability.md — what standard OBD2 vs SSM2 gives us on the GT86
@@ -39,8 +41,11 @@ Pre-purchase health check for GT86 buyers. Web app (React). Mocked data for now,
 
 ## Code style
 - React with hooks, functional components
+- TypeScript, strict mode
+- Tailwind CSS v4 for styling
 - 2-space indent
 - Named exports
+- `@/` path alias for src imports
 
 ## Open decisions
 - Reg plate input: before the scan or after? Needed for DVLA lookup.
