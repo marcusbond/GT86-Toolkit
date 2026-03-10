@@ -9,8 +9,7 @@ Phase 2: emulator integration, real serial connection, native apps.
 | Item | Status | Notes |
 |------|--------|-------|
 | BLE OBD2 adapter model | UNKNOWN | Needed for GATT service/characteristic UUIDs |
-| Mentee's dev environment for iOS | UNKNOWN | Xcode requires macOS — mentee is on Windows |
-| Android or iOS first? | UNKNOWN | Android is more accessible on Windows |
+| Android or iOS first? | UNKNOWN | Mentee has both Xcode (Mac) and Android Studio (Windows) |
 | Reg plate input for DVLA | UNKNOWN | Needed before real DVLA API call — before or after scan? |
 | ELM327-emulator config format | PENDING | Will inspect once submodule is added |
 
