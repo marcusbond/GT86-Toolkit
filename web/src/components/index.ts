@@ -1,5 +1,8 @@
 export { Report } from './Report'
 export { Scorecard } from './Scorecard'
+export { VehicleDetailsCard } from './VehicleDetailsCard'
+export { MileageHistoryCard } from './MileageHistoryCard'
+export { MotHistoryCard } from './MotHistoryCard'
 export { FaultCodesCard } from './FaultCodesCard'
 export { PendingCodesCard } from './PendingCodesCard'
 export { ReadinessCard } from './ReadinessCard'

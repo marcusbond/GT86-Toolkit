@@ -1,4 +1,5 @@
 import type { DTC, ReadinessMonitors, PidReading } from '@/protocol'
+import type { DvlaData, MileageAnalysis } from '@/dvla'
 import { lookupFaultCode } from './fault-codes'
 import type { FaultCodeInfo } from './fault-codes'
 import { checkRange } from './ranges'
@@ -41,6 +42,8 @@ export interface Report {
   pendingDtcs: EnrichedDtc[]
   readiness: EnrichedReadiness | null
   readings: EnrichedReading[]
+  dvla: DvlaData | null
+  mileage: MileageAnalysis | null
 }
 
 export function enrichDtcs(dtcs: DTC[]): EnrichedDtc[] {

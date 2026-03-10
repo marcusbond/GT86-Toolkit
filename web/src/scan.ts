@@ -1,4 +1,5 @@
 import type { Connection } from '@/connection'
+import type { ScenarioName } from '@/connection'
 import {
   parseStoredDtcs,
   parsePendingDtcs,
@@ -14,6 +15,7 @@ import {
 import type { PidReading } from '@/protocol'
 import { enrichDtcs, enrichReadiness, enrichReading } from '@/knowledge'
 import type { Report } from '@/knowledge'
+import { dvlaScenarios, analyseMileage } from '@/dvla'
 
 export interface ScanProgress {
   step: string
@@ -23,6 +25,7 @@ export interface ScanProgress {
 export async function runScan(
   connection: Connection,
   onProgress?: (progress: ScanProgress) => void,
+  scenarioName?: ScenarioName,
 ): Promise<Report> {
   const report = (step: string, percent: number) => onProgress?.({ step, percent })
 
@@ -83,8 +86,12 @@ export async function runScan(
       }
     }
 
+    // DVLA data (mocked per scenario, real API call later)
+    const dvla = scenarioName ? dvlaScenarios[scenarioName] : null
+    const mileage = dvla ? analyseMileage(dvla.motHistory) : null
+
     report('Complete', 100)
-    return { vin, storedDtcs, pendingDtcs, readiness, readings }
+    return { vin, storedDtcs, pendingDtcs, readiness, readings, dvla, mileage }
   } finally {
     await connection.disconnect()
   }

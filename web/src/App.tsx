@@ -29,7 +29,7 @@ export function App() {
       try {
         const delay = import.meta.env.MODE === 'test' ? 0 : 400
         const connection = new MockConnection(target, delay)
-        const result = await runScan(connection, setProgress)
+        const result = await runScan(connection, setProgress, target)
         setReport(result)
         setScreen('report')
       } catch (err) {

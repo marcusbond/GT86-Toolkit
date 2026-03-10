@@ -1,5 +1,8 @@
 import type { Report as ReportData } from '@/knowledge'
 import { Scorecard } from './Scorecard'
+import { VehicleDetailsCard } from './VehicleDetailsCard'
+import { MileageHistoryCard } from './MileageHistoryCard'
+import { MotHistoryCard } from './MotHistoryCard'
 import { FaultCodesCard } from './FaultCodesCard'
 import { PendingCodesCard } from './PendingCodesCard'
 import { ReadinessCard } from './ReadinessCard'
@@ -23,7 +26,15 @@ export function Report({ report }: ReportProps) {
         storedDtcs={report.storedDtcs}
         pendingDtcs={report.pendingDtcs}
         readiness={report.readiness}
+        dvla={report.dvla}
+        mileage={report.mileage}
       />
+
+      {report.dvla && <VehicleDetailsCard vehicle={report.dvla.vehicle} />}
+      {report.dvla && report.mileage && (
+        <MileageHistoryCard motHistory={report.dvla.motHistory} analysis={report.mileage} />
+      )}
+      {report.dvla && <MotHistoryCard motHistory={report.dvla.motHistory} />}
 
       <FaultCodesCard dtcs={report.storedDtcs} />
       <PendingCodesCard dtcs={report.pendingDtcs} />
