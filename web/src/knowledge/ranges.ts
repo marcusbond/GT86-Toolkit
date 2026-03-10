@@ -11,7 +11,7 @@ interface RangeDefinition {
   warningMin: number
   warningMax: number
   unit: string
-  context: (value: number, status: RangeStatus) => string
+  context: (value: number) => string
 }
 
 const RANGES: Record<string, RangeDefinition> = {
@@ -21,7 +21,7 @@ const RANGES: Record<string, RangeDefinition> = {
     warningMin: 60,
     warningMax: 115,
     unit: '°C',
-    context: (value, status) => {
+    context: (value) => {
       if (value < 60) return 'Engine not at operating temperature. May not have been warmed up, or thermostat could be stuck open.'
       if (value > 115) return 'Overheating. Do not drive. Could indicate a cooling system failure — radiator, water pump, or thermostat.'
       if (value > 105) return 'Running hot. The FA20 normally sits around 80-95°C. Worth investigating the cooling system.'
@@ -35,7 +35,7 @@ const RANGES: Record<string, RangeDefinition> = {
     warningMin: 12.0,
     warningMax: 15.5,
     unit: 'V',
-    context: (value, status) => {
+    context: (value) => {
       if (value < 12.0) return 'Very low voltage. Battery may be dead or alternator not charging.'
       if (value < 13.5) return 'Below charging voltage. Engine may not be running, or the alternator could be failing.'
       if (value > 15.5) return 'Overcharging. Voltage regulator may be faulty. Can damage electronics.'
@@ -49,7 +49,7 @@ const RANGES: Record<string, RangeDefinition> = {
     warningMin: -15,
     warningMax: 15,
     unit: '%',
-    context: (value, status) => {
+    context: (value) => {
       if (Math.abs(value) <= 10) return 'Within normal range for the FA20.'
       if (value > 15) return 'Running very lean. The ECU is adding significant fuel to compensate. Could indicate a vacuum leak, failing O2 sensor, or fuel delivery issue.'
       if (value > 10) return 'Running lean. The ECU is compensating but this is outside normal range. Worth investigating.'
@@ -75,5 +75,5 @@ export function checkRange(pid: string, value: number): RangeCheck {
     status = 'normal'
   }
 
-  return { status, message: range.context(value, status) }
+  return { status, message: range.context(value) }
 }
