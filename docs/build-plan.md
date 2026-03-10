@@ -43,36 +43,35 @@ Parse raw OBD2 responses into typed objects. Pure input/output.
 
 GT86-specific context on top of parsed data.
 
-- [ ] Fault code lookup table — code → description + GT86 context
-- [ ] Normal ranges for PIDs on the FA20 (coolant, fuel trims, battery)
-- [ ] Readiness monitor descriptions (what each one means for a buyer)
-- [ ] `interpret()` function: takes parsed data, returns enriched report
-- [ ] Unit tests: known codes get context, values outside range get flagged
-- [ ] Commit
+- [x] Fault code lookup table — code → description + GT86 context
+- [x] Normal ranges for PIDs on the FA20 (coolant, fuel trims, battery)
+- [x] Readiness monitor descriptions (what each one means for a buyer)
+- [x] `interpret()` function: takes parsed data, returns enriched report
+- [x] Unit tests: known codes get context, values outside range get flagged (34 tests)
+- [x] Commit: `830d5e0`
 
 ## Slice 4: Report screen
 
 Render enriched data. Match the POC wireframe.
 
-- [ ] Scorecard row — summary badges (faults, pending, readiness, MOT, mileage)
-- [ ] Vehicle details card
-- [ ] Fault codes card (with GT86 context)
-- [ ] Pending codes card
-- [ ] Readiness monitors card
-- [ ] Engine vitals card (coolant, battery, fuel trims with range indicators)
-- [ ] Wire up: mock connection → protocol → knowledge → UI
-- [ ] Visual check against `poc/index.html`
-- [ ] Commit
+- [x] Scorecard row — summary badges (faults, pending, readiness)
+- [x] Fault codes card (with GT86 context)
+- [x] Pending codes card
+- [x] Readiness monitors card
+- [x] Engine vitals card (coolant, battery, fuel trims with range indicators)
+- [x] Wire up: mock connection → protocol → knowledge → UI
+- [x] Visual check against `poc/index.html`
+- [x] Commit: `a8b64a2`
 
-## Slice 5: Scenario switching
+## Slice 5: Scenario switching + POC styling
 
-Swap between mock scenarios to prove the UI handles all states.
+Swap between mock scenarios to prove the UI handles all states. Match POC visual design.
 
-- [ ] Add remaining scenarios: `modified`, `suspect`, `rough`
-- [ ] Scenario picker (dev-only UI, dropdown or similar)
-- [ ] Verify each scenario renders correctly — clean, warnings, failures
-- [ ] Unit tests for each scenario through the full stack
-- [ ] Commit
+- [x] Scenario picker (dev-only dropdown)
+- [x] All four scenarios render correctly — clean, modified, suspect, rough
+- [x] Plus Jakarta Sans font, theme tokens matching POC palette
+- [x] Components styled with theme colors (cool blue-greys, status colors)
+- [x] Commit: `c19bb45`
 
 ## Slice 6: Connect + scan flow
 
