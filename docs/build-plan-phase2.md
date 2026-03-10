@@ -4,6 +4,20 @@ Phase 1 (web POC, slices 0-7) is complete. Mock data, four scenarios, full repor
 
 Phase 2: emulator integration, real serial connection, native apps.
 
+## Connection profiles
+
+Same `Connection` interface on every platform. App doesn't know which is active.
+
+| Mode | Transport | Purpose | Platform |
+|------|-----------|---------|----------|
+| Mock | In-memory | Dev/testing, instant, no dependencies | All |
+| Web Serial | Virtual serial port | Emulator testing over real wire format | Web (Chrome) |
+| TCP | Network socket | Emulator testing over real wire format | iOS, Android |
+| BLE | Bluetooth Low Energy | Real OBD2 adapter | iOS, Android |
+| Web Bluetooth | Bluetooth Low Energy | Real OBD2 adapter (future) | Web (Chrome) |
+
+Dev settings screen on native apps to pick mode. Mock is default.
+
 ## Open decisions
 
 | Item | Status | Notes |
@@ -88,8 +102,10 @@ native-apps/ios/
 │   ├── ViewModels/
 │   │   └── ScanViewModel.swift
 │   ├── Services/
-│   │   ├── BLEConnection.swift      # CoreBluetooth
+│   │   ├── Connection.swift         # Protocol (interface)
 │   │   ├── MockConnection.swift     # Same scenarios as web
+│   │   ├── TCPConnection.swift      # Emulator via network socket
+│   │   ├── BLEConnection.swift      # CoreBluetooth (real adapter)
 │   │   └── OBDProtocol.swift        # Command/response parsing
 │   ├── Knowledge/
 │   │   └── GT86Knowledge.swift      # Loads from shared JSON
@@ -115,8 +131,10 @@ Native Android app. Jetpack Compose, same flow.
 
 **Stack:**
 - Jetpack Compose
-- Navigation 3 Compose
-- MVVM + Kotlin coroutines
+- Material 3 (M3) theming
+- Navigation Compose (`androidx.navigation:navigation-compose`)
+- Hilt for dependency injection (mock/BLE connection swap)
+- MVVM + Kotlin coroutines + StateFlow
 - Android BLE API
 
 **Structure:**
@@ -127,9 +145,10 @@ native-apps/android/
 │       ├── java/com/gt86toolkit/
 │       │   ├── MainActivity.kt
 │       │   ├── connection/
-│       │   │   ├── BLEConnection.kt
-│       │   │   ├── MockConnection.kt
-│       │   │   └── Connection.kt        # Interface
+│       │   │   ├── Connection.kt        # Interface
+│       │   │   ├── MockConnection.kt    # Same scenarios as web
+│       │   │   ├── TcpConnection.kt     # Emulator via network socket
+│       │   │   └── BLEConnection.kt     # Real adapter
 │       │   ├── protocol/
 │       │   │   └── OBDParser.kt          # Command/response parsing
 │       │   ├── knowledge/
@@ -151,26 +170,41 @@ native-apps/android/
 ```
 
 - [ ] Compose project in `native-apps/android/`
-- [ ] Navigation 3 with Connect → Scan → Report flow
+- [ ] M3 theme with colour tokens matching web app palette
+- [ ] Navigation Compose with Connect → Scan → Report flow
+- [ ] Hilt module providing `Connection` interface (mock by default, swappable to TCP/BLE)
 - [ ] Mock connection returning scenario data
 - [ ] Protocol parsing (port from web TS → Kotlin)
 - [ ] Knowledge layer loading shared JSON
 - [ ] Report screen matching web app layout
 - [ ] Scenario picker (dev only)
 
-## Slice 14: BLE connection (both platforms)
+## Slice 14: TCP connection (both platforms)
+
+Connect native apps to the emulator over TCP for wire format testing without hardware.
+
+- [ ] iOS: `TCPConnection.swift` — NWConnection to emulator at configurable host:port
+- [ ] Android: `TcpConnection.kt` — Kotlin coroutines + Socket to emulator
+- [ ] Same `Connection` interface as mock — swap in without UI changes
+- [ ] Dev settings screen: pick Mock / TCP / BLE, configure emulator host:port
+- [ ] Emulator runs with `-n 35000` for TCP mode
+- [ ] End-to-end test: native app → TCP → emulator → responses parse correctly
+- [ ] Verify all four scenarios produce identical Report output as mock
+
+## Slice 15: BLE connection (both platforms)
 
 Wire real BLE to an OBD2 adapter. Blocked until adapter model is known.
 
 - [ ] Discover adapter GATT UUIDs (use nRF Connect app to scan)
 - [ ] iOS: CoreBluetooth scan → connect → discover services → read/write characteristics
 - [ ] Android: BluetoothGatt scan → connect → discover → read/write
-- [ ] Same `Connection` interface as mock — swap in without UI changes
+- [ ] Same `Connection` interface — swap in without UI changes
 - [ ] Test with real adapter on a GT86
+- [ ] Note: existing iOS app (`GT86 Toolkit/OBDManager.swift`) uses SwiftOBD2 package for BLE — reference for GATT patterns
 
 ---
 
-## Slice 15: Real DVLA API
+## Slice 16: Real DVLA API
 
 Replace mocked DVLA data with real MOT history API call.
 
