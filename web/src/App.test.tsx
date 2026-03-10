@@ -3,15 +3,13 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect } from 'vitest'
 import { App } from './App'
 
-const SCAN_TIMEOUT = { timeout: 5000 }
-
 async function scanAndWaitForReport() {
   const user = userEvent.setup()
   render(<App />)
   await user.click(screen.getByText('Connect and scan'))
   await waitFor(() => {
     expect(screen.getByText('Health Report')).toBeInTheDocument()
-  }, SCAN_TIMEOUT)
+  })
   return user
 }
 

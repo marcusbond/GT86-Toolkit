@@ -140,6 +140,51 @@ Pointed Claude at the ELM327-emulator reference from `docs/testing-approach.md` 
 
 **Takeaway:** "How do we know what that looks like?" is a better prompt than "build the mock data." Research before code. The 10 minutes spent on the reference doc saves rewriting the parser when you discover the format was wrong.
 
+## Prompt 11: Build Phase — Iterative Slices
+
+> ya then come back
+
+> lfg
+
+> commit ten both
+
+The build phase prompts were short and directive. "lfg" (let's go) to start a slice. "ya" to approve and move on. "commit then both" to bundle related work. This worked because the build plan was already documented — Claude knew what each slice contained without being told.
+
+**What worked:** The build plan did the heavy lifting. Each slice was scoped, ordered by dependency, with clear acceptance criteria. The prompts just said "go" and "next."
+
+**What we'd do differently:** Nothing. Short prompts during build are fine when the plan is solid. Long prompts during build usually mean the plan wasn't clear enough.
+
+## Prompt 12: Visual Verification
+
+> see it, connect to chrome and drive
+
+Instead of describing what the UI should look like, we pointed Claude at the browser and let it compare against the POC wireframe directly. Chrome automation caught issues (wrong scenario default, unstyled components) that text-based review would have missed.
+
+**Takeaway:** "Look at it" beats "describe it." If your tool can see the output, use that. Visual bugs are visual — you catch them by looking, not by reading code.
+
+## Prompt 13: Code Quality Audit
+
+> scan the code and tests for any workarounds and also for compositions to avoid repetitive code
+
+Asked explicitly before moving to the next slice. This caught:
+- **FaultCodesCard and PendingCodesCard** were near-identical — extracted into a shared DtcCard component
+- **`import.meta.env.MODE === 'test'`** — reviewed and kept as standard Vite pattern, not a hack
+- **Parser boilerplate** — reviewed and left alone, each parser already extracts its own common pattern internally
+
+The audit found that most "repetition" was intentional (thin wrappers with clear purpose) and the one real duplication was worth fixing. Three similar lines is fine. Two identical 40-line components is not.
+
+**Takeaway:** "Scan for workarounds" is a good checkpoint prompt between slices. It catches technical debt before it compounds. But not everything flagged needs fixing — use judgement about whether the duplication is accidental (fix it) or structural (leave it).
+
+## Prompt 14: Bug Debugging
+
+> scenario selector not working
+
+Short bug report. Claude investigated in the browser, found the error ("Cannot read properties of undefined (reading '09 02')"), and traced it to `onClick={onConnect}` passing the MouseEvent as the first argument to `startScan(scenarioOverride?)`. The MouseEvent was truthy, so `target = scenarioOverride ?? scenario` used the event object as a scenario name.
+
+Classic React gotcha: `onClick={fn}` passes the event. `onClick={() => fn()}` doesn't. The fix was one line.
+
+**Takeaway:** Browser automation is valuable for debugging. Seeing the actual error message in the UI (not just reading the code) made the root cause obvious. Also: TypeScript doesn't catch this because the `scenarioOverride` parameter accepts `string`, and MouseEvent is truthy — the bug is in the runtime contract, not the types.
+
 ## What we learned (updated)
 
 "Can we get oil temp?" is a product question. Answering it early killed a feature direction before we wasted time on it.
@@ -155,3 +200,11 @@ State your quality bar explicitly. Claude defaults to "simplest for the context.
 "Document before building" and "research before coding" are one-sentence prompts that save hours. Claude's bias is toward action. Slowing it down at the right moment is the highest-leverage thing you can do.
 
 "How do we know what that looks like?" is the single best question to ask before building anything that talks to an external system. It forces grounded research instead of plausible-sounding invention.
+
+Short prompts work during build when the plan is solid. "lfg" is a valid prompt if the build plan already says what "go" means.
+
+"Look at it" beats "describe it." Browser automation catches visual bugs that code review can't. If your tool can see the output, use that instead of imagining it.
+
+"Scan for workarounds" between slices catches debt early. But not everything flagged is worth fixing — two identical 40-line components is a problem, three similar lines is not.
+
+TypeScript doesn't catch every bug. `onClick={fn}` passing a MouseEvent into a `string?` parameter is a runtime contract violation that types can't see. When something fails at runtime but passes the compiler, check what values are actually flowing through.

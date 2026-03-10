@@ -75,13 +75,19 @@ Swap between mock scenarios to prove the UI handles all states. Match POC visual
 
 ## Slice 6: Connect + scan flow
 
-The UX before the report.
+The UX before the report. Three-screen state machine matching the POC wireframe.
 
-- [ ] Connect screen — single button, adapter status
-- [ ] Scan screen — progress indicator, auto-runs all checks
-- [ ] Flow: connect → scan → report
-- [ ] Error states: adapter not found, connection lost, unexpected response
-- [ ] Commit
+- [x] ConnectScreen — brand, title, setup steps, "Connect and scan" button
+- [x] ScanScreen — progress bar with step text, updates via callback
+- [x] runScan progress reporting (5 steps as it moves through OBD2 queries)
+- [x] MockConnection configurable delay (400ms dev, 0ms test)
+- [x] App state machine: connect → scanning → report, with error screen
+- [x] Scenario switcher re-scans from report screen
+- [x] Error screen with "Try again"
+- [x] Fixed onClick event leaking MouseEvent as scenario arg
+- [x] Extracted DtcCard — shared component for FaultCodesCard and PendingCodesCard
+- [x] 101 tests green
+- [x] Commit: `4b34038`
 
 ## Slice 7: DVLA / MOT history
 
