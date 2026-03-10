@@ -39,18 +39,18 @@ describe('App', () => {
     expect(screen.getByText('JF1ZNAA12E2345678')).toBeInTheDocument()
   })
 
-  it('shows fault codes card', async () => {
+  it('shows vehicle history tab by default', async () => {
     await scanAndWaitForReport()
+    expect(screen.getByText('Vehicle Details')).toBeInTheDocument()
+    expect(screen.getByText('Mileage History')).toBeInTheDocument()
+    expect(screen.getByText('MOT History')).toBeInTheDocument()
+  })
+
+  it('shows diagnostics cards after switching tab', async () => {
+    const user = await scanAndWaitForReport()
+    await user.click(screen.getByText('Live Diagnostics'))
     expect(screen.getByText('Fault Codes')).toBeInTheDocument()
-  })
-
-  it('shows readiness monitors card', async () => {
-    await scanAndWaitForReport()
     expect(screen.getByText('Readiness Monitors')).toBeInTheDocument()
-  })
-
-  it('shows engine vitals card', async () => {
-    await scanAndWaitForReport()
     expect(screen.getByText('Engine Vitals')).toBeInTheDocument()
   })
 
