@@ -91,11 +91,15 @@ The UX before the report. Three-screen state machine matching the POC wireframe.
 
 ## Slice 7: DVLA / MOT history
 
-- [ ] Mocked DVLA response (MOT history, mileage, tax status)
-- [ ] Mileage history card (consistency check, gap detection)
-- [ ] MOT history card (pass/fail, advisories, failures)
-- [ ] Unit tests for mileage anomaly detection
-- [ ] Commit
+- [x] New `dvla/` module: types, mock data per scenario, mileage analysis
+- [x] Vehicle Details card (registration, colour, engine, tax status, MOT expiry)
+- [x] Mileage History card (bar chart, anomaly highlighting, rollback detection)
+- [x] MOT History card (pass/fail, advisories, failures in red)
+- [x] Scorecard extended with MOT expiry and mileage consistency cells
+- [x] Unit tests for mileage anomaly detection (rollback, excessive, edge cases)
+- [x] All four scenarios verified visually against POC wireframe
+- [x] 110 tests green
+- [x] Commit: `d5c05f0`
 
 ---
 

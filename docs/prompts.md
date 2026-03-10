@@ -185,6 +185,22 @@ Classic React gotcha: `onClick={fn}` passes the event. `onClick={() => fn()}` do
 
 **Takeaway:** Browser automation is valuable for debugging. Seeing the actual error message in the UI (not just reading the code) made the root cause obvious. Also: TypeScript doesn't catch this because the `scenarioOverride` parameter accepts `string`, and MouseEvent is truthy — the bug is in the runtime contract, not the types.
 
+## Prompt 15: DVLA / MOT History (Slice 7)
+
+> yes , make sure you refernce the poc too
+
+One short instruction with one important constraint: reference the POC. Claude read the POC wireframe, saw the Vehicle History tab structure (Vehicle Details, Mileage History with bar chart, MOT History), and built the data layer and UI to match.
+
+The DVLA data doesn't flow through OBD2, so it needed its own module (`dvla/`) sitting alongside the four existing layers rather than being forced into the connection→protocol→knowledge pipeline. Architecture decisions like this are worth getting right — forcing DVLA data through OBD2 layers would have muddied both.
+
+The mileage anomaly detection was the interesting part. The suspect scenario has mileage going 52,100 → 45,900 between consecutive MOTs — a rollback. The `analyseMileage()` function walks consecutive pairs and flags rollbacks and excessive mileage. Data-driven, same pattern as the knowledge layer.
+
+**What worked:** "Make sure you reference the POC" was the key constraint. Without it, Claude would have built DVLA cards that worked but might not have matched the visual spec. The POC showed exact layout: data rows for vehicle details, bar chart for mileage, chronological list for MOT. Matching it meant less iteration.
+
+**What caught us:** The POC had tabs (Vehicle History / Live Diagnostics) but the React build had been scrolling everything. One word — "well, the poc had tabs" — and Claude added them. Short corrections work when the reference exists.
+
+**Takeaway:** "Reference the spec" is a useful constraint when the spec exists. Claude builds faster and more accurately when it has a visual target. Also: when you spot a mismatch between the build and the spec, say so immediately. One sentence is enough. The longer you wait, the more code needs changing.
+
 ## What we learned (updated)
 
 "Can we get oil temp?" is a product question. Answering it early killed a feature direction before we wasted time on it.
@@ -208,3 +224,7 @@ Short prompts work during build when the plan is solid. "lfg" is a valid prompt 
 "Scan for workarounds" between slices catches debt early. But not everything flagged is worth fixing — two identical 40-line components is a problem, three similar lines is not.
 
 TypeScript doesn't catch every bug. `onClick={fn}` passing a MouseEvent into a `string?` parameter is a runtime contract violation that types can't see. When something fails at runtime but passes the compiler, check what values are actually flowing through.
+
+Not everything belongs in the same pipeline. DVLA data comes from a different source than OBD2 — forcing it through the connection→protocol→knowledge layers would have been wrong. When the data source is different, the module should be different. Architecture is about boundaries, not uniformity.
+
+"Reference the spec" saves iteration. When a visual target exists (POC, mockup, screenshot), pointing Claude at it produces more accurate output than describing what you want. And when the build drifts from the spec, a one-sentence correction ("the POC had tabs") is enough to fix it. The shorter the feedback, the faster the fix.
