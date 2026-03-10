@@ -15,7 +15,18 @@ import type { PidReading } from '@/protocol'
 import { enrichDtcs, enrichReadiness, enrichReading } from '@/knowledge'
 import type { Report } from '@/knowledge'
 
-export async function runScan(connection: Connection): Promise<Report> {
+export interface ScanProgress {
+  step: string
+  percent: number
+}
+
+export async function runScan(
+  connection: Connection,
+  onProgress?: (progress: ScanProgress) => void,
+): Promise<Report> {
+  const report = (step: string, percent: number) => onProgress?.({ step, percent })
+
+  report('Connecting to vehicle…', 10)
   await connection.connect()
 
   try {
@@ -27,11 +38,13 @@ export async function runScan(connection: Connection): Promise<Report> {
     await connection.send('ATSP6')
 
     // VIN
+    report('Reading vehicle info…', 30)
     const vinRaw = await connection.send('09 02')
     const vinResult = parseVin(vinRaw)
     const vin = vinResult.ok ? vinResult.vin : null
 
     // Stored DTCs
+    report('Checking fault codes…', 50)
     const storedRaw = await connection.send('03')
     const storedResult = parseStoredDtcs(storedRaw)
     const storedDtcs = storedResult.ok ? enrichDtcs(storedResult.dtcs) : []
@@ -42,11 +55,13 @@ export async function runScan(connection: Connection): Promise<Report> {
     const pendingDtcs = pendingResult.ok ? enrichDtcs(pendingResult.dtcs) : []
 
     // Readiness
+    report('Running readiness checks…', 70)
     const readinessRaw = await connection.send('01 01')
     const readinessResult = parseReadiness(readinessRaw)
     const readiness = readinessResult.ok ? enrichReadiness(readinessResult.readiness) : null
 
     // PID readings
+    report('Reading engine vitals…', 85)
     const pidCommands: {
       command: string
       parse: (response: string) => { ok: true; reading: PidReading } | { ok: false; error: string }
@@ -68,6 +83,7 @@ export async function runScan(connection: Connection): Promise<Report> {
       }
     }
 
+    report('Complete', 100)
     return { vin, storedDtcs, pendingDtcs, readiness, readings }
   } finally {
     await connection.disconnect()
