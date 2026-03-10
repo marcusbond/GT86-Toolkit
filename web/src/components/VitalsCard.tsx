@@ -9,9 +9,9 @@ interface VitalsCardProps {
 
 function statusColor(status: RangeStatus): string {
   const colors = {
-    normal: 'text-green-600',
-    warning: 'text-amber-600',
-    critical: 'text-red-600',
+    normal: 'text-pass',
+    warning: 'text-warn',
+    critical: 'text-fail',
   }
   return colors[status]
 }
@@ -38,7 +38,6 @@ function overallLabel(status: 'pass' | 'warn' | 'fail'): string {
   return 'Problem'
 }
 
-// Group fuel trims into short labels for the 2x2 grid
 function shortName(reading: EnrichedReading): string {
   if (reading.pid === '05') return 'Coolant'
   if (reading.pid === '42') return 'Battery'
@@ -51,16 +50,14 @@ function shortName(reading: EnrichedReading): string {
 
 export function VitalsCard({ readings }: VitalsCardProps) {
   const status = overallStatus(readings)
-
-  // Split into primary readings (grid) and any with warnings (detail below)
   const warnings = readings.filter((r) => r.range.status !== 'normal')
 
   return (
     <Card title="Engine Vitals" badge={<StatusBadge status={status} label={overallLabel(status)} />}>
-      <div className="grid grid-cols-2 gap-px bg-gray-200 mb-3">
+      <div className="grid grid-cols-2 gap-px bg-border mb-3">
         {readings.map((reading) => (
-          <div key={reading.pid} className="bg-white p-3.5">
-            <div className="text-[11px] text-gray-400 uppercase tracking-wide mb-0.5">
+          <div key={reading.pid} className="bg-surface py-3.5 px-4">
+            <div className="text-[11px] text-text-light uppercase tracking-[0.04em] mb-0.5">
               {shortName(reading)}
             </div>
             <div className={`text-[22px] font-bold tracking-tight ${statusColor(reading.range.status)}`}>

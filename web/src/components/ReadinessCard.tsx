@@ -31,15 +31,15 @@ export function ReadinessCard({ readiness }: ReadinessCardProps) {
           </ContextBlock>
         )}
 
-        <div className="mt-3 border-t border-gray-200">
+        <div className="mt-3 border-t border-border">
           {readiness.monitors.map((monitor) => (
             <div
               key={monitor.name}
-              className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-b-0 text-[13px]"
+              className="flex items-center justify-between py-[11px] border-b border-border last:border-b-0 text-[13px]"
             >
-              <span className="text-gray-500">{monitor.name}</span>
+              <span className="text-text-mid">{monitor.name}</span>
               <span
-                className={`font-semibold ${monitor.complete ? 'text-green-600' : 'text-amber-600'}`}
+                className={`font-semibold ${monitor.complete ? 'text-pass' : 'text-warn'}`}
               >
                 {monitor.complete ? 'Complete' : 'Incomplete'}
               </span>

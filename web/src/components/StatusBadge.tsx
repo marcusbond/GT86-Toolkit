@@ -5,13 +5,13 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status, label }: StatusBadgeProps) {
   const styles = {
-    pass: 'bg-green-50 text-green-600',
-    warn: 'bg-amber-50 text-amber-600',
-    fail: 'bg-red-50 text-red-600',
+    pass: 'bg-pass-bg text-pass',
+    warn: 'bg-warn-bg text-warn',
+    fail: 'bg-fail-bg text-fail',
   }
 
   return (
-    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${styles[status]}`}>
+    <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-[3px] ${styles[status]}`}>
       {label}
     </span>
   )

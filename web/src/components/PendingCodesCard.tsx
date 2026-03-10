@@ -23,8 +23,8 @@ export function PendingCodesCard({ dtcs }: PendingCodesCardProps) {
           dtcs.map((dtc) => (
             <div key={dtc.code} className="mb-4 last:mb-0">
               <p>
-                <span className="font-bold text-gray-900 tracking-wide">{dtc.code}</span>
-                <span className="text-gray-500"> — {dtc.info.description}</span>
+                <span className="font-bold text-text tracking-[0.02em]">{dtc.code}</span>
+                <span className="text-text-mid"> — {dtc.info.description}</span>
               </p>
               {dtc.info.gt86Context && (
                 <ContextBlock label="GT86 Context">{dtc.info.gt86Context}</ContextBlock>

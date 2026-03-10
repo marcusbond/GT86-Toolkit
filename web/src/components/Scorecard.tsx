@@ -8,9 +8,9 @@ interface ScoreCardProps {
 
 function scoreClass(status: 'pass' | 'warn' | 'fail'): string {
   const colors = {
-    pass: 'text-green-600',
-    warn: 'text-amber-600',
-    fail: 'text-red-600',
+    pass: 'text-pass',
+    warn: 'text-warn',
+    fail: 'text-fail',
   }
   return colors[status]
 }
@@ -29,7 +29,7 @@ export function Scorecard({ storedDtcs, pendingDtcs, readiness }: ScoreCardProps
   }
 
   return (
-    <div className="flex bg-white border border-gray-200 rounded mb-6 overflow-hidden">
+    <div className="flex bg-surface border border-border rounded mb-6 overflow-hidden">
       <ScoreCell label="Faults" value={String(storedDtcs.length)} status={faultStatus} />
       <ScoreCell label="Pending" value={String(pendingDtcs.length)} status={pendingStatus} />
       <ScoreCell label="Readiness" value={readinessLabel} status={readinessStatus} />
@@ -47,11 +47,11 @@ function ScoreCell({
   status: 'pass' | 'warn' | 'fail'
 }) {
   return (
-    <div className="flex-1 py-3.5 text-center border-r border-gray-200 last:border-r-0">
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">
+    <div className="flex-1 py-3.5 text-center border-r border-border last:border-r-0">
+      <div className="text-[10px] font-semibold uppercase tracking-[0.06em] text-text-light mb-1">
         {label}
       </div>
-      <div className={`text-sm font-bold ${scoreClass(status)}`}>{value}</div>
+      <div className={`text-[13px] font-bold ${scoreClass(status)}`}>{value}</div>
     </div>
   )
 }
